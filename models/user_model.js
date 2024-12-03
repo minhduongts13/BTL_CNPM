@@ -1,5 +1,7 @@
 const {database} = require("../index.js")
 
+const {pagination_item_per_page} = require("../configs/system.js");
+
 const mysql = require('mysql2');
 
 // Create the connection to database
@@ -241,6 +243,56 @@ module.exports.updateBuyLog = (userID, pageType, quantity, total, status) => {
         }
         connection.query(
             `call updateBuyLog('${userID}', '${pageType}', ${quantity}, ${total}, now(), '${status}')`,
+            func
+        )
+    })
+}
+
+module.exports.getTotalLogAdmin = () => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else {
+                const totalLog = Math.ceil(results[0]['count(*)'] / pagination_item_per_page)
+                resolve(totalLog)
+            }
+        }
+        connection.query(
+            `SELECT count(*)
+            FROM admin_printhistory`,
+            func
+        )
+    })
+}
+
+module.exports.getLogAdmin = (page) => {
+    const offset = (page - 1) * pagination_item_per_page;
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else {
+                // Format the date for each row
+                const formattedResults = results.map((row) => {
+                    const startDateObj = new Date(row["Thời gian bắt đầu"]);
+                    const formattedStartDate = `${String(startDateObj.getDate()).padStart(2, '0')}/${String(startDateObj.getMonth() + 1).padStart(2, '0')}/${startDateObj.getFullYear()} ${String(startDateObj.getHours()).padStart(2, '0')}:${String(startDateObj.getMinutes()).padStart(2, '0')}:${String(startDateObj.getSeconds()).padStart(2, '0')}`;
+
+                    const endDateObj = new Date(row["Thời gian kết thúc"]);
+                    const formattedEndDate = `${String(endDateObj.getDate()).padStart(2, '0')}/${String(endDateObj.getMonth() + 1).padStart(2, '0')}/${endDateObj.getFullYear()} ${String(endDateObj.getHours()).padStart(2, '0')}:${String(endDateObj.getMinutes()).padStart(2, '0')}:${String(endDateObj.getSeconds()).padStart(2, '0')}`;
+                    
+                    return {
+                        ...row,
+                        "Thời gian bắt đầu": formattedStartDate,
+                        "Thời gian kết thúc": formattedEndDate
+                    };
+                });
+                resolve(formattedResults)
+            }
+        }
+        connection.query(
+            `SELECT "Mã người dùng", "Mã máy in", "Tên tài liệu", "Thời gian bắt đầu", "Thời gian kết thúc", "Loại trang", "Số lượng trang mua"
+            FROM admin_printhistory
+            ORDER BY "Thời gian bắt đầu" desc
+            LIMIT ${pagination_item_per_page} OFFSET ${offset};`,
             func
         )
     })

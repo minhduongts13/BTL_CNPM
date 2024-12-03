@@ -14,6 +14,7 @@ app.set('view engine', 'pug')
 
 const systemConfig = require("./configs/system.js")
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.pagination_item_per_page = systemConfig.pagination_item_per_page
 
 app.get("/role", (req, res) => {
     res.render("index.pug");    
