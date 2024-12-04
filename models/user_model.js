@@ -297,3 +297,75 @@ module.exports.getLogAdmin = (page) => {
         )
     })
 }
+
+module.exports.getPrinterAdmin = () => {
+    const listLocation = new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve(results);
+        }
+        connection.query(
+            `SELECT DISTINCT  "Địa điểm đặt máy"
+            FROM admin_printers
+            ORDER BY "Địa điểm đặt máy";`,
+            func
+        )
+    })
+
+    // return listLocation.then(async (results) => {
+    //     await results.forEach((location) => {
+    //         function func(err, results, fields) {
+    //             location.printer = results;
+    //         }
+    //         connection.query(
+    //             `SELECT "Mã máy in", "Tên máy in", "Hãng máy in", "Thông tin mô tả", "Địa điểm đặt máy", "Trạng thái"
+    //             FROM admin_printers
+    //             WHERE "Địa điểm đặt máy" = ${location["Địa điểm đặt máy"]}
+    //             ORDER BY "Mã máy in"
+    //             ;`,
+    //             func             
+    //         )
+    //     })
+    //     return results;
+    // })
+
+    return listLocation.then((results) => {
+        return Promise.all(
+            results.map(location => {
+                return new Promise((resolve, reject) => {
+                    connection.query(
+                        `SELECT "Mã máy in", "Tên máy in", "Hãng máy in", "Thông tin mô tả", "Địa điểm đặt máy", "Trạng thái"
+                         FROM admin_printers
+                         WHERE "Địa điểm đặt máy" = ?
+                         ORDER BY "Mã máy in";`,
+                        [location["Địa điểm đặt máy"]],
+                        (err, results) => {
+                            if (err) reject(err);
+                            else {
+                                location.printer = results; // Attach printers to the location
+                                resolve(location); // Resolve with the enriched location
+                            }
+                        }
+                    );
+                });
+            })
+        );
+    
+        return detailedLocations;
+    })
+}
+
+module.exports.modifyStatusPrinter = (id, status) => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve()
+        }
+        connection.query(
+            `UPDATE admin_printers
+            SET "Trạng thái" = '${status}'
+            WHERE "Mã máy in" = '${id}'`,
+            func
+        )
+    })
+}

@@ -6,6 +6,9 @@ app.use(express.static(`${__dirname}/public`))
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
 require('dotenv').config();
 const port = process.env.PORT
 
