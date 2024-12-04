@@ -1,1 +1,1 @@
-spending management app using redis as database
+software engineering assm
