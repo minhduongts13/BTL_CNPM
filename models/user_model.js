@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
     database: process.env.database_name
 });
 
-module.exports.checkUserID = (userID) => {
+module.exports.checkUserEmail = (userID) => {
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
             const isExisting = results[0]['count(*)'];
@@ -26,11 +26,27 @@ module.exports.checkUserID = (userID) => {
         connection.query(
             `SELECT count(*)
             FROM user_profile
-            WHERE ID = '${userID}'`,
+            WHERE Email = '${userID}'`,
             func
         )
     })
 }
+
+module.exports.getUserID = (userEmail) => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve(results[0]['ID']);
+        }
+        connection.query(
+            `SELECT ID
+            FROM user_profile
+            WHERE Email = '${userEmail}'`,
+            func
+        )
+    })
+}
+
 
 module.exports.checkAdminEmail = (userEmail) => {
     return new Promise((resolve, reject) => {

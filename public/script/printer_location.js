@@ -7,7 +7,7 @@ const location1 = "A1";
 let firstVisibleOption1 = null;
 
 optionList1.forEach((option) => {
-    if (option.classList.contains(location)) {
+    if (option.classList.contains(location1)) {
         option.style.display = "block"; // Show matching options
         option.disabled = false; 
         if (!firstVisibleOption1) {

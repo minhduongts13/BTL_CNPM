@@ -9,13 +9,15 @@ module.exports.home = async (req, res) => {
 // [POST] /login
 module.exports.verify = async (req, res) => {
     // console.log(req.body)
-    const userID = req.body.userID;
-    const isExisting = await userModel.checkUserID(userID);
+    const userEmail = req.body.userID;
+    const isExisting = await userModel.checkUserEmail(userEmail);
 
     if (!isExisting) {
         res.redirect("/login");
         return;
     }
+
+    const userID = await userModel.getUserID(userEmail);
 
     let options = {
         maxAge: 20 * 60 * 1000, // would expire in 20minutes

@@ -10,7 +10,7 @@ module.exports.home = async (req, res) => {
     })
 }
 
-
+// [PATCH] /admin/mng_printer/update_status/:id/:status
 module.exports.modifyPrinter = async (req, res) => {
     let status = req.params.status;
     const id = req.params.id;

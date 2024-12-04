@@ -9,20 +9,20 @@ head
 .min-h-screen.flex.flex-col(class='lg:flex-row')
   // Sidebar
   aside.w-full.bg-blue-600.text-white.flex.flex-col(class='lg:w-64')
-    img.w-auto.h-auto.mb-2(src='./img/HCMUT_official_logo.png' alt='Logo')
+    img.w-auto.h-auto.mb-2(src='/img/HCMUT_official_logo.png' alt='Logo')
     .flex.items-center.justify-center.py-4.border-b-2
       h1.text-2xl.font-bold.text-green-500 HCMUT - SSPS
     nav.mt-4.space-y-2.text-xl
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/` class='hover:bg-blue-700')
         span.material-icons home
         span Trang ch&#x1EE7;
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/mng_printer` class='hover:bg-blue-700')
         span.material-icons print
         span Qu&#x1EA3;n l&yacute; m&aacute;y in
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/log` class='hover:bg-blue-700')
         span.material-icons history
         span L&#x1ECB;ch s&#x1EED; d&#x1ECB;ch v&#x1EE5;
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/report` class='hover:bg-blue-700')
         span.material-icons report
         span Xem b&aacute;o c&aacute;o
   // Main Content
