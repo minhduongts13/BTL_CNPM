@@ -369,3 +369,17 @@ module.exports.modifyStatusPrinter = (id, status) => {
         )
     })
 }
+
+module.exports.getAdminProfile = (userID) => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve(results[0])
+        }
+        connection.query(
+            `SELECT * FROM admin_profile
+            WHERE ID = '${userID}'`,
+            func
+        )
+    })
+}
