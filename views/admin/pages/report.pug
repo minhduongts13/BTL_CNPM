@@ -10,20 +10,20 @@ head
 .min-h-screen.flex.flex-col(class='lg:flex-row')
   // Sidebar
   aside.w-full.bg-blue-600.text-white.flex.flex-col(class='lg:w-64')
-    img.w-auto.h-auto.mb-2(src='./img/HCMUT_official_logo.png' alt='Logo')
+    img.w-auto.h-auto.mb-2(src='/img/HCMUT_official_logo.png' alt='Logo')
     .flex.items-center.justify-center.py-4.border-b-2
       h1.text-2xl.font-bold.text-green-500 HCMUT - SSPS
     nav.mt-4.space-y-2.text-xl
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/` class='hover:bg-blue-700')
         span.material-icons home
         span Trang ch&#x1EE7;
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/mng_printer` class='hover:bg-blue-700')
         span.material-icons print
         span Qu&#x1EA3;n l&yacute; m&aacute;y in
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/log` class='hover:bg-blue-700')
         span.material-icons history
         span L&#x1ECB;ch s&#x1EED; d&#x1ECB;ch v&#x1EE5;
-      a.flex.items-center.space-x-3.py-2.px-3.rounded(href='#' class='hover:bg-blue-700')
+      a.flex.items-center.space-x-3.py-2.px-3.rounded(href=`${prefixAdmin}/report` class='hover:bg-blue-700')
         span.material-icons report
         span Xem b&aacute;o c&aacute;o
   // Main Content
@@ -67,156 +67,113 @@ head
         canvas#usageChart.w-full.h-72
     script.
       // Example data
-      const data = [
-      {
-      year: 2023,
-      month: 11,
-      a4: 36,
-      a3: 70,
-      b4: 4,
-      b5: 2,
-      c5: 18,
-      dl: 2,
-      letter: 7,
-      legal: 40,
-      printers: 20,
-      revenue: 129600,
-      },
-      {
-      year: 2023,
-      month: 12,
-      a4: 244,
-      a3: 379,
-      b4: 445,
-      b5: 402,
-      c5: 577,
-      dl: 243,
-      letter: 384,
-      legal: 355,
-      printers: 50,
-      revenue: 2341400,
-      },
-      {
-      year: 2024,
-      month: 1,
-      a4: 120,
-      a3: 200,
-      b4: 300,
-      b5: 250,
-      c5: 400,
-      dl: 100,
-      letter: 150,
-      legal: 200,
-      printers: 40,
-      revenue: 1800000,
-      },
-      ];
+      const data = !{JSON.stringify(datatest)};
       const years = [...new Set(data.map((d) => d.year))]; // Extract unique years
       const months = [...new Set(data.map((d) => d.month))]; // Extract unique months
       // Populate Year and Month Select options
       const yearSelect = document.getElementById("yearSelect");
       const monthSelect = document.getElementById("monthSelect");
       years.forEach((year) => {
-      const option = document.createElement("option");
-      option.value = year;
-      option.textContent = year;
-      yearSelect.appendChild(option);
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
       });
       months.forEach((month) => {
-      const option = document.createElement("option");
-      option.value = month;
-      option.textContent = `Tháng ${month}`;
-      monthSelect.appendChild(option);
+        const option = document.createElement("option");
+        option.value = month;
+        option.textContent = `Tháng ${month}`;
+        monthSelect.appendChild(option);
       });
       // Global chart variable to destroy and recreate the chart
       let usageChart;
       // Function to update chart based on selected year and month
       function updateChart() {
-      const selectedYear = parseInt(yearSelect.value);
-      const selectedMonth = parseInt(monthSelect.value);
-      // Filter data based on selected year and month
-      const filteredData = data.filter(
-      (d) => d.year === selectedYear && d.month === selectedMonth
-      );
-      if (filteredData.length > 0) {
-      const latestData = filteredData[0];
-      document.getElementById("printerCount").textContent =
-      latestData.printers;
-      document.getElementById(
-      "totalRevenue"
-      ).textContent = `${latestData.revenue.toLocaleString()} VND`;
-      // Prepare chart data
-      const labels = [
-      "A4",
-      "A3",
-      "B4",
-      "B5",
-      "C5",
-      "DL",
-      "Letter",
-      "Legal",
-      ];
-      const pageUsage = [
-      latestData.a4,
-      latestData.a3,
-      latestData.b4,
-      latestData.b5,
-      latestData.c5,
-      latestData.dl,
-      latestData.letter,
-      latestData.legal,
-      ];
-      // If chart already exists, destroy it before creating a new one
-      if (usageChart) {
-      usageChart.destroy();
-      }
-      // Initialize Chart.js
-      const ctx = document
-      .getElementById("usageChart")
-      .getContext("2d");
-      usageChart = new Chart(ctx, {
-      type: "bar",
-      data: {
-      labels: labels,
-      datasets: [
-      {
-      label: "Số trang",
-      data: pageUsage,
-      backgroundColor: [
-      "#60a5fa",
-      "#93c5fd",
-      "#bfdbfe",
-      "#3b82f6",
-      "#2563eb",
-      "#1d4ed8",
-      "#1e40af",
-      "#1e3a8a",
-      ],
-      borderColor: "#3b82f6",
-      borderWidth: 1,
-      },
-      ],
-      },
-      options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-      legend: {
-      display: true,
-      position: "top",
-      },
-      },
-      scales: {
-      y: {
-      beginAtZero: true,
-      ticks: {
-      stepSize: 50,
-      },
-      },
-      },
-      },
-      });
-      }
+        const selectedYear = parseInt(yearSelect.value);
+        const selectedMonth = parseInt(monthSelect.value);
+        // Filter data based on selected year and month
+        const filteredData = data.filter(
+          (d) => d.year === selectedYear && d.month === selectedMonth
+        );
+        if (filteredData.length > 0) {
+          const latestData = filteredData[0];
+          document.getElementById("printerCount").textContent =
+            latestData.printers;
+          document.getElementById(
+            "totalRevenue"
+          ).textContent = `${latestData.revenue.toLocaleString()} VND`;
+          // Prepare chart data
+          const labels = [
+            "A4",
+            "A3",
+            "B4",
+            "B5",
+            "C5",
+            "DL",
+            "Letter",
+            "Legal",
+          ];
+          const pageUsage = [
+            latestData.a4,
+            latestData.a3,
+            latestData.b4,
+            latestData.b5,
+            latestData.c5,
+            latestData.dl,
+            latestData.letter,
+            latestData.legal,
+          ];
+          // If chart already exists, destroy it before creating a new one
+          if (usageChart) {
+            usageChart.destroy();
+          }
+          // Initialize Chart.js
+          const ctx = document
+            .getElementById("usageChart")
+            .getContext("2d");
+          usageChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Số trang",
+                  data: pageUsage,
+                  backgroundColor: [
+                    "#60a5fa",
+                    "#93c5fd",
+                    "#bfdbfe",
+                    "#3b82f6",
+                    "#2563eb",
+                    "#1d4ed8",
+                    "#1e40af",
+                    "#1e3a8a",
+                  ],
+                  borderColor: "#3b82f6",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: "top",
+                },
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    stepSize: 50,
+                  },
+                },
+              },
+            },
+          });
+        }
       }
       // Set default values and call the function to populate the chart
       yearSelect.value = years[0]; // Set default year
