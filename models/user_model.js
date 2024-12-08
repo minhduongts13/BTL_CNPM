@@ -249,6 +249,23 @@ module.exports.getUserProfile = (userID) => {
     })
 }
 
+module.exports.updateRemainingPaper = (userID, pageType, quantity) => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else {
+                resolve();
+            }
+        }
+        connection.query(
+            `UPDATE user_profile
+            SET "Số dư trang" = "Số dư trang" + ${quantity}
+            WHERE ID = '${userID}'`,
+            func
+        )
+    })
+}
+
 module.exports.updateBuyLog = (userID, pageType, quantity, total, status) => {
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
