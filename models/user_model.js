@@ -110,6 +110,19 @@ module.exports.getPrinterLocation = () => {
     })
 }
 
+module.exports.getAllPrinterLocation = () => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve(results);
+        }
+        connection.query(
+            `SELECT "mã máy in", "Địa điểm đặt máy" FROM admin_printers; `,
+            func
+        )
+    })
+}
+
 module.exports.getRemainingPaper = (userID) => {
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
@@ -281,7 +294,18 @@ module.exports.updateBuyLog = (userID, pageType, quantity, total, status) => {
     })
 }
 
-module.exports.getTotalLogAdmin = () => {
+module.exports.getTotalLogAdmin = (startDate, endDate, printerID, studentID) => {
+    let startDateCond, endDateCond, printerIDCond, studentIDCond;
+
+    if (startDate) startDateCond = `"Thời gian bắt đầu" >= '${startDate}'`
+    else startDateCond = 'true'
+    if (endDate) endDateCond = `"Thời gian bắt đầu" <= '${endDate}'`
+    else endDateCond = 'true'
+    if (printerID) printerIDCond = `"Mã máy in" = '${printerID}'`
+    else printerIDCond = 'true'
+    if (studentID) studentIDCond = `"Mã người dùng" = '${studentID}'`
+    else studentIDCond = 'true'
+
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
             if (err) reject(err);
@@ -292,13 +316,25 @@ module.exports.getTotalLogAdmin = () => {
         }
         connection.query(
             `SELECT count(*)
-            FROM admin_printhistory`,
+            FROM admin_printhistory
+            WHERE ${startDateCond} AND ${endDateCond} AND ${printerIDCond} AND ${studentIDCond};`,
             func
         )
     })
 }
 
-module.exports.getLogAdmin = (page) => {
+module.exports.getLogAdmin = (page, startDate, endDate, printerID, studentID) => {
+    let startDateCond, endDateCond, printerIDCond, studentIDCond;
+
+    if (startDate) startDateCond = `"Thời gian bắt đầu" >= '${startDate}'`
+    else startDateCond = 'true'
+    if (endDate) endDateCond = `"Thời gian bắt đầu" <= '${endDate}'`
+    else endDateCond = 'true'
+    if (printerID) printerIDCond = `"Mã máy in" = '${printerID}'`
+    else printerIDCond = 'true'
+    if (studentID) studentIDCond = `"Mã người dùng" = '${studentID}'`
+    else studentIDCond = 'true'
+
     const offset = (page - 1) * pagination_item_per_page;
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
@@ -324,6 +360,7 @@ module.exports.getLogAdmin = (page) => {
         connection.query(
             `SELECT "Mã người dùng", "Mã máy in", "Tên tài liệu", "Thời gian bắt đầu", "Thời gian kết thúc", "Loại trang", "Số lượng trang mua"
             FROM admin_printhistory
+            WHERE ${startDateCond} AND ${endDateCond} AND ${printerIDCond} AND ${studentIDCond}
             ORDER BY "Thời gian bắt đầu" desc
             LIMIT ${pagination_item_per_page} OFFSET ${offset};`,
             func
