@@ -74,7 +74,7 @@ header.w-full.bg-white.shadow-md.py-4
         // Số trang mỗi lần in
         .mb-4
           label.block.text-sm.font-semibold.text-gray-700.mb-2(for='file-upload') Ch&#x1ECD;n t&#x1EC7;p t&agrave;i li&#x1EC7;u:
-          input#file-upload.w-full.bg-gray-100.text-gray-800.rounded.px-4.py-2.border.border-gray-300(type='file' name='file' accept='.pdf, .docx, .pptx' required)
+          input#file-upload.w-full.bg-gray-100.text-gray-800.rounded.px-4.py-2.border.border-gray-300(type='file' name='file' accept=`${permittedExtensions}` required)
         .mb-4
           label.block.text-sm.font-semibold.text-gray-700.mb-1 Số trang còn lại:
           input#paper-size.w-full.bg-gray-100.text-gray-800.rounded.px-4.py-2(disabled value=`${remainingPaper}`)

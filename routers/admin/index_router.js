@@ -6,6 +6,7 @@ const loginRouter = require("./login_router.js")
 const mngRouter = require("./mng_priter_router.js")
 const reportRouter = require("./report_router.js")
 const profileRouter = require("./profile_router.js")
+const configRouter = require("./config_router.js")
 
 module.exports = (app) => {
     const PATH_ADMIN = systemConfig.prefixAdmin;
@@ -16,4 +17,5 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + '/mng_printer', mngRouter);
     app.use(PATH_ADMIN + '/report', reportRouter);
     app.use(PATH_ADMIN + '/profile', profileRouter);
+    app.use(PATH_ADMIN + '/config', configRouter)
 }

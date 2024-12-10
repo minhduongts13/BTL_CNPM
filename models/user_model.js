@@ -123,6 +123,19 @@ module.exports.getAllPrinterLocation = () => {
     })
 }
 
+module.exports.getPermittedType = () => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve(results[0]);
+        }
+        connection.query(
+            `SELECT pdf, doc, pptx, png, jpg FROM CONFIG; `,
+            func
+        )
+    })
+}
+
 module.exports.getRemainingPaper = (userID) => {
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
@@ -490,6 +503,49 @@ module.exports.test = () => {
         }
         connection.query(
             `call test()`,
+            func
+        )
+    })
+}
+
+module.exports.getConfig = () => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve(results[0])
+        }
+        connection.query(
+            `SELECT * FROM CONFIG`,
+            func
+        )
+    })
+}
+
+module.exports.updateConfig = (providingDate, paperPerMonth, pdf, doc, pptx, png, jpg) => {
+    let pdfCond, docCond, pptxCond, pngCond, jpgCond;
+
+    if (pdf) pdfCond = 1;
+    else pdfCond = 0;
+    if (doc) docCond = 1;
+    else docCond = 0;
+    if (pptx) pptxCond = 1;
+    else pptxCond = 0;
+    if (png) pngCond = 1;
+    else pngCond = 0;
+    if (jpg) jpgCond = 1;
+    else jpgCond = 0;
+
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else resolve()
+        }
+        connection.query(
+            `UPDATE CONFIG
+            SET providingDate = ${providingDate}, paperPerMonth = ${paperPerMonth},
+                pdf = ${pdfCond}, doc = ${docCond}, pptx = ${pptxCond},
+                png = ${pngCond}, jpg = ${jpgCond}
+            WHERE providingDate > 0`,
             func
         )
     })

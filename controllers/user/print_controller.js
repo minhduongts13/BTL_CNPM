@@ -11,12 +11,19 @@ module.exports.home = async (req, res) => {
     const userID = req.user;
 
     const printerLocation = await userModel.getPrinterLocation();
-    console.log(printerLocation);
+    const permittedType = await userModel.getPermittedType();
+
+    // Convert the permittedType object to a string of permitted file extensions
+    const permittedExtensions = Object.entries(permittedType)
+    .filter(([key, value]) => value === 1) // Filter only the permitted types
+    .map(([key]) => `.${key}`) // Format the keys with a dot
+    .join(', '); // Join them into a single string
 
     const remainingPaper = await userModel.getRemainingPaper(userID);
     res.render("./user/pages/print.pug", {
         remainingPaper: remainingPaper,
-        printerLocation: printerLocation
+        printerLocation: printerLocation,
+        permittedExtensions: permittedExtensions
     })
 }
 
@@ -48,6 +55,14 @@ module.exports.print = async (req, res) => {
         const xmlData = await parser.parseStringPromise(pptXml);
 
         pageCount = xmlData['p:presentation']['p:sldIdLst'][0]['p:sldId'].length; // Slide count
+    } else if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+        // Handle PNG and JPG images
+        const dimensions = sizeOf(filepath);
+        if (dimensions.width && dimensions.height) {
+            pageCount = 1; // Each image is treated as a single page
+        } else {
+            return res.status(400).send('Invalid image file.');
+        } 
     } else {
         return res.status(400).send('Unsupported file type.');
     }
