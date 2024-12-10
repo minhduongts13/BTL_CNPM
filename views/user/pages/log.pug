@@ -112,7 +112,7 @@ header.w-full.bg-white.shadow-md.py-4
             th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider
               | Loại trang
             th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider
-              | Chi phí
+              | Số giấy sử dụng
         tbody
           // Table rows here
           each item, index in logs 
@@ -130,7 +130,7 @@ header.w-full.bg-white.shadow-md.py-4
               th.px-5.py-3.border-b-2.border-gray-200.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider
                 | #{item['Loại trang']}
               th.px-5.py-3.border-b-2.border-gray-200.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider
-                | #{item['Giá tiền tổng (VND)']}
+                | #{item['Số lượng trang mua']}
 footer.w-full.bg-white.shadow-md.py-8
   .container.mx-auto.flex.flex-wrap.justify-between.px-6
     // Logo and Title

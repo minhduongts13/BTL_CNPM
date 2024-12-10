@@ -16,7 +16,7 @@ module.exports.updateBuyLog = async (req, res) => {
     const pageType = 'A4'
     const status = 'Đã thanh toán'
 
-    await userModel.updateRemainingPaper(userID, pageType, quantity);
+    await userModel.updateRemainingPaperBuyPaper(userID, pageType, quantity);
 
     await userModel.updateBuyLog(userID, pageType, quantity, quantity * 1000, status)
 

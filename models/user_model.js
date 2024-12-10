@@ -139,6 +139,21 @@ module.exports.getRemainingPaper = (userID) => {
     })
 }
 
+module.exports.hasEnoughPaper = (userID, pageType, pageNum) => {
+    return new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject(err);
+            else {
+                resolve(results[0]['res']);
+            }
+        }
+        connection.query(
+            `SELECT hasEnoughPaper('${userID}', '${pageType}', '${pageNum}') AS res`,
+            func
+        )
+    })
+}
+
 module.exports.updateRemainingPaper = (userID, pageType, numPages) => {
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
@@ -206,7 +221,7 @@ module.exports.filterLog = (startDate, endDate, printerID, userID) => {
             }
         }
         connection.query(
-            `SELECT "Mã máy in", "Tên tài liệu", "Thời gian bắt đầu", "Thời gian kết thúc", "Loại trang", "Giá tiền tổng (VND)"
+            `SELECT "Mã máy in", "Tên tài liệu", "Thời gian bắt đầu", "Thời gian kết thúc", "Loại trang", "Số lượng trang mua"
             FROM admin_printhistory
             WHERE 
                 "Mã người dùng" = '${userID}' AND
@@ -262,7 +277,7 @@ module.exports.getUserProfile = (userID) => {
     })
 }
 
-module.exports.updateRemainingPaper = (userID, pageType, quantity) => {
+module.exports.updateRemainingPaperBuyPaper = (userID, pageType, quantity) => {
     return new Promise((resolve, reject) => {
         function func(err, results, fields) {
             if (err) reject(err);

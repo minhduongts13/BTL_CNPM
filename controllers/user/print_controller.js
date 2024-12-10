@@ -76,8 +76,8 @@ module.exports.print = async (req, res) => {
     pageNum = parseInt(pageNum);
     console.log("pageNum: ", pageNum)
 
-    const remainingPaper = await userModel.getRemainingPaper(userID);
-    if (pageNum > remainingPaper) {
+    const hasEnoughPaper = await userModel.hasEnoughPaper(userID, paperSize, pageNum);
+    if (!hasEnoughPaper) {
         res.redirect("/print");
         return;
     }
