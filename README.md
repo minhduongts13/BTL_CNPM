@@ -55,6 +55,7 @@ Thành viên phát triển dự án:
 - Dương Quang Minh, Đinh Xuân Quyết, Đỗ Thanh Liêm - phát triển frontend
 - Đỗ Thanh Liêm - phát triển backend
 - Đỗ Hoàng Quân, Đỗ Thanh Liêm - phát triển database
+- Dương Quang Minh, Đinh Xuân Quyết, Đỗ Thanh Liêm, Đỗ Hoàng Quân, Hồ Quốc Đạt - phát triển thiết kế
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -169,8 +170,6 @@ Các tài khoản có sẵn trong dữ liệu mẫu:
 
   Hoặc bất cứ tài khoản nào trong bảng `admin_profile` trong MySQL
 
-Tài khoản sinh viên có sẵn số dư page balance là 2000.
-
 ### Nhóm chức năng của sinh viên
 
 #### In tài liệu
@@ -205,11 +204,11 @@ Tài khoản sinh viên có sẵn số dư page balance là 2000.
 
 1. Chọn số trang cần mua
 
-Hệ thống sử dụng đơn vị tính là giấy A4, vì thế hệ thống sẽ tự động tính toán tổng tiền dựa trên đơn giá A4 (1000đ)
+    Hệ thống sử dụng đơn vị tính là giấy A4, vì thế hệ thống sẽ tự động tính toán tổng tiền dựa trên đơn giá A4 (1000đ)
 
 2. Xác nhận thanh toán
 
-Khi nhấn 'mua', bên dưới sẽ cập nhật lịch sử mua của bạn
+    Khi nhấn 'mua', bên dưới sẽ cập nhật lịch sử mua của bạn
 
 **Chú ý**: Tính năng liên kết tới hệ thống thanh toán trực tuyến chưa được hiện thực.
 
