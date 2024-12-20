@@ -205,11 +205,11 @@ Tài khoản sinh viên có sẵn số dư page balance là 2000.
 
 1. Chọn số trang cần mua
 
-- Hệ thống sử dụng đơn vị tính là giấy A4, vì thế hệ thống sẽ tự động tính toán tổng tiền dựa trên đơn giá A4 (1000đ)
+Hệ thống sử dụng đơn vị tính là giấy A4, vì thế hệ thống sẽ tự động tính toán tổng tiền dựa trên đơn giá A4 (1000đ)
 
-- Khi nhấn 'mua', bên dưới sẽ cập nhật lịch sử mua của bạn
+2. Xác nhận thanh toán
 
-3. Xác nhận thanh toán
+Khi nhấn 'mua', bên dưới sẽ cập nhật lịch sử mua của bạn
 
 **Chú ý**: Tính năng liên kết tới hệ thống thanh toán trực tuyến chưa được hiện thực.
 
